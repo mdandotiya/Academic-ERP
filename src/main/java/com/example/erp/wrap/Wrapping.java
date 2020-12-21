@@ -5,10 +5,11 @@ import com.example.erp.bean.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.json.bind.annotation.JsonbTransient;
 import java.util.List;
 
 public class Wrapping {
-    public static JSONArray coursearray = new JSONArray();
+    private static JSONArray coursearray = new JSONArray();
 
     Students students;
     Courses courses;
@@ -33,7 +34,7 @@ public class Wrapping {
         result.put("day",course_schedule.getDay());
         result.put("room",course_schedule.getRoom());
         result.put("faculty","");
-        result.put("ta","");
+        result.put("ta", courses.getStudentsta());
         result.put("specialisation",courses.getSpecialisations());
         coursearray.put(result);
     }
@@ -85,5 +86,13 @@ public class Wrapping {
 
     public void setSpecialisation(Specialisation specialisation) {
         this.specialisation = specialisation;
+    }
+
+    public static JSONArray getCoursearray() {
+        return coursearray;
+    }
+
+    public static void setCoursearray(JSONArray coursearray) {
+        Wrapping.coursearray = coursearray;
     }
 }

@@ -10,7 +10,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.sql.Wrapper;
 import java.util.List;
 
 public class CourseDaoImpl implements CourseDao {

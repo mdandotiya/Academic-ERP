@@ -9,8 +9,8 @@ import java.util.List;
 
 public class StudentService {
     StudentDao studentDao = new StudentDaoImpl();
-    public boolean verifyEmail(Students students){
-        return studentDao.emailverify(students);
+    public Students verifyEmail(Students student){
+        return studentDao.emailVerify(student);
     }
     public List<Courses> getCourses(Students students){
         return studentDao.coursesfetch(students);

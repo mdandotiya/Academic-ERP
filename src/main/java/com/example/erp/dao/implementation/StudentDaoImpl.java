@@ -16,19 +16,18 @@ import java.util.List;
 
 public class StudentDaoImpl implements StudentDao {
     @Override
-    public boolean emailverify(Students students) {
-        try(Session session = SessionUtil.getSession()) {
+    public Students emailVerify(Students student) {
+        try (Session session = SessionUtil.getSession()) {
             Query query = session.createQuery("from Students where email=:email");
-            query.setParameter("email", students.getEmail());
-            if(query.getResultList().size()==1){
-                return true;
+            query.setParameter("email", student.getEmail());
+            for (final Object fetch : query.list()) {
+                return (Students) fetch;
             }
+        } catch (HibernateException exception) {
+            System.out.print(exception.getLocalizedMessage());
+            return null;
         }
-        catch (HibernateException exception){
-            System.out.println(exception.getLocalizedMessage());
-            return false;
-        }
-        return false;
+        return null;
     }
 
     @Override

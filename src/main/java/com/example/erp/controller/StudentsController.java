@@ -7,7 +7,10 @@ import com.example.erp.wrap.Wrapping;
 import com.example.erp.bean.Courses;
 import com.example.erp.bean.Students;
 import com.example.erp.service.StudentService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import javax.json.JsonArray;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -26,13 +29,13 @@ public class StudentsController {
     @Path("/login")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response loginStudents(Students students) throws URISyntaxException{
-        if(studentService.verifyEmail(students)){
-            return Response.ok().build();
+    public Response loginStudent(Students student) throws URISyntaxException {
+        Students result = studentService.verifyEmail(student);
+        if(result == null){
+            return Response.noContent().build();
         }
-        else {
-            return Response.status(203).build();
-        }
+
+        return Response.ok().entity(result.getEmail()).build();
     }
 
     @POST
@@ -44,10 +47,13 @@ public class StudentsController {
         if(coursesList.size() > 0){
             List<Course_Schedule> course_schedules = courseService.getschedule(coursesList);
             Employees employees = courseService.getEmployee(coursesList);
-            return Response.ok().build();
+            JSONObject result = new JSONObject();
+            result.put("courses",Wrapping.getCoursearray());
+            String temp = result.toString();
+            return Response.ok().entity(temp).build();
         }
         else {
-            return Response.status(203).build();
+            return Response.noContent().build();
         }
     }
 }

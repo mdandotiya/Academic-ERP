@@ -3,12 +3,14 @@ package com.example.erp.bean;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "Students")
-public class Students {
+public class Students implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -18,9 +20,6 @@ public class Students {
 
     @Column(nullable = false, unique = true)
     private String email;
-
-   // @ManyToMany(fetch = FetchType.LAZY, mappedBy = "students")
-   // private List<Courses> coursesta;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
@@ -62,6 +61,7 @@ public class Students {
         this.email = email;
     }
 
+    @JsonbTransient
     public List<Courses> getCourses() {
         return courses;
     }

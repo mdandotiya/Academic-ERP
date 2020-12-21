@@ -6,6 +6,6 @@ import com.example.erp.bean.Students;
 import java.util.List;
 
 public interface StudentDao {
-    boolean emailverify(Students students);
+    Students emailVerify(Students student);
     List<Courses> coursesfetch(Students students);
 }

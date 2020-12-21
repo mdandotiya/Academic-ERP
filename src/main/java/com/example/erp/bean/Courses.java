@@ -4,11 +4,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "Courses")
-public class Courses {
+public class Courses implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer course_id;
@@ -30,16 +31,17 @@ public class Courses {
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "courses")
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Students> students;
+    private List<Specialisation> specialisations;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinTable(name = "Course_TA", joinColumns = {@JoinColumn(name = "student_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")})
+    private List<Students> studentsta;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "courses")
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Specialisation> specialisations;
-
-  /*  @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Course_TA", joinColumns = {@JoinColumn(name = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "student_id")})
-    private List<Students> studentsta; */
+    private List<Students> students;
 
     public Courses(){
 
@@ -107,11 +109,12 @@ public class Courses {
         this.course_id = course_id;
     }
 
-    /*  public List<Students> getStudentsta() {
+
+    public List<Students> getStudentsta() {
         return studentsta;
     }
 
     public void setStudentsta(List<Students> studentsta) {
         this.studentsta = studentsta;
-    } */
+    }
 }
